@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S-talk | Secure Anonymous Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- 1. LANDING PAGE SECTION -->
+    <div id="landing-page" class="screen active">
+        <nav>
+            <div class="logo">
+                <!-- SVG Logo -->
+                <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="45" stroke="#00d2ff" stroke-width="5" fill="#1a1a1a"/>
+                    <path d="M30 50 Q50 20 70 50 T90 80" stroke="#00d2ff" stroke-width="8" stroke-linecap="round"/>
+                    <circle cx="70" cy="35" r="8" fill="#fff"/>
+                </svg>
+                <span>S-talk</span>
+            </div>
+        </nav>
+
+        <div class="hero-content">
+            <h1>Talk to Strangers.<br><span class="highlight">Safely.</span></h1>
+            <p>Experience the new era of random chatting. No Login required.</p>
+            
+            <div class="features">
+                <div class="feat-box">🔒 100% Anonymous</div>
+                <div class="feat-box">⚡ Fast Connection</div>
+                <div class="feat-box">🛡️ Secure & Safe</div>
+            </div>
+
+            <button class="main-btn" onclick="showSelection()">Start Chatting</button>
+        </div>
+    </div>
+
+    <!-- 2. SELECTION MODE SECTION -->
+    <div id="selection-page" class="screen">
+        <h2>Choose Your Mode</h2>
+        <div class="cards-container">
+            <div class="card" onclick="startChat('video')">
+                <div class="icon">🎥</div>
+                <h3>Video Chat</h3>
+                <p>Face to face with random people.</p>
+            </div>
+            <div class="card" onclick="startChat('text')">
+                <div class="icon">💬</div>
+                <h3>Text Chat</h3>
+                <p>Just typing. No camera needed.</p>
+            </div>
+        </div>
+        <button class="back-btn" onclick="location.reload()">Back</button>
+    </div>
+
+    <!-- 3. CHAT ROOM SECTION -->
+    <div id="chat-room" class="screen">
+        
+        <!-- Video Area (Hidden if Text Mode) -->
+        <div id="video-area" class="video-wrapper">
+            <video id="remoteVideo" autoplay playsinline></video>
+            <video id="localVideo" autoplay muted playsinline></video>
+            <div class="loading-overlay" id="loadingMsg">Searching for a partner...</div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="chat-wrapper" id="chatWrapper">
+            <div class="chat-header">
+                <span id="status-badge" class="badge">Connecting...</span>
+                <button onclick="skipPartner()" class="skip-btn">Skip / Next</button>
+                <button onclick="location.reload()" class="stop-btn">End</button>
+            </div>
+            
+            <div id="messages-box">
+                <div class="sys-msg">Welcome to S-talk! Be polite.</div>
+            </div>
+
+            <div class="input-box">
+                <input type="text" id="msgInput" placeholder="Type a message..." disabled>
+                <button id="sendBtn" disabled>→</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
