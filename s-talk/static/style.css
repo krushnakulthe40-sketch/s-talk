@@ -7,17 +7,24 @@
     --glass: rgba(255, 255, 255, 0.05);
 }
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
     height: 100vh;
+    height: 100dvh; /* Mobile browser toolbar fix */
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Screens Management */
-.screen { display: none; height: 100%; width: 100%; }
+/* --- Common Layout --- */
+.screen { display: none; width: 100%; height: 100%; }
 .screen.active { display: flex; flex-direction: column; }
 
 /* 1. Landing Page */
@@ -26,103 +33,203 @@ body {
     justify-content: center;
     background: radial-gradient(circle at center, #1a1a24 0%, #000 100%);
     text-align: center;
+    padding: 20px;
 }
 
 .logo {
-    position: absolute; top: 20px; left: 30px;
+    position: absolute; top: 20px; left: 20px;
     display: flex; align-items: center; gap: 10px;
-    font-size: 24px; font-weight: bold; color: var(--primary);
+    font-size: 1.5rem; font-weight: bold; color: var(--primary);
 }
 
-.hero-content h1 { font-size: 3rem; margin-bottom: 10px; }
-.highlight { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
+.hero-content {
+    max-width: 600px;
+    width: 100%;
+}
+
+.hero-content h1 { font-size: 2.5rem; margin-bottom: 10px; line-height: 1.2; }
+.highlight { color: var(--primary); text-shadow: 0 0 15px var(--primary); }
 
 .features {
-    display: flex; gap: 15px; justify-content: center; margin: 30px 0;
+    display: flex; gap: 15px; justify-content: center; margin: 30px 0; flex-wrap: wrap;
 }
 .feat-box {
-    background: var(--glass); padding: 10px 20px; border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem;
+    background: var(--glass); padding: 10px 15px; border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem;
 }
 
 .main-btn {
-    padding: 15px 40px; font-size: 1.2rem; background: linear-gradient(45deg, var(--secondary), var(--primary));
-    border: none; color: white; border-radius: 30px; cursor: pointer;
-    box-shadow: 0 0 20px rgba(0, 210, 255, 0.4); transition: transform 0.2s;
+    padding: 15px 50px; font-size: 1.2rem; 
+    background: linear-gradient(45deg, var(--secondary), var(--primary));
+    border: none; color: white; border-radius: 50px; cursor: pointer;
+    box-shadow: 0 0 20px rgba(0, 210, 255, 0.4); 
+    font-weight: 600;
 }
-.main-btn:hover { transform: scale(1.05); }
 
 /* 2. Selection Page */
 #selection-page {
     align-items: center; justify-content: center;
+    padding: 20px;
 }
-.cards-container { display: flex; gap: 30px; margin-top: 20px; }
+.cards-container { 
+    display: flex; gap: 30px; margin-top: 20px; 
+    flex-wrap: wrap; justify-content: center;
+}
 
 .card {
-    background: var(--card-bg); padding: 40px; border-radius: 20px;
-    text-align: center; width: 200px; cursor: pointer;
-    border: 1px solid transparent; transition: 0.3s;
+    background: var(--card-bg); padding: 30px; border-radius: 20px;
+    text-align: center; width: 220px; cursor: pointer;
+    border: 2px solid transparent; transition: 0.3s;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 .card:hover { border-color: var(--primary); transform: translateY(-5px); }
-.card .icon { font-size: 4rem; margin-bottom: 20px; }
+.card .icon { font-size: 3.5rem; margin-bottom: 15px; }
 
-/* 3. Chat Room */
+.back-btn {
+    margin-top: 30px; background: transparent; border: 1px solid #555;
+    color: #aaa; padding: 10px 30px; border-radius: 20px; cursor: pointer;
+}
+
+/* 3. Chat Room (Desktop Default) */
 #chat-room { flex-direction: row; }
 
-/* Video Chat Layout */
+/* Video Area */
 .video-wrapper {
     flex: 2; background: #000; position: relative;
     display: flex; justify-content: center; align-items: center;
+    overflow: hidden;
 }
-#remoteVideo { width: 100%; height: 100%; object-fit: cover; }
+#remoteVideo { width: 100%; height: 100%; object-fit: contain; background: #000; }
 #localVideo {
     position: absolute; bottom: 20px; right: 20px;
-    width: 180px; height: 120px; background: #333;
-    border-radius: 10px; border: 2px solid var(--primary);
+    width: 180px; height: 135px; background: #222;
+    border-radius: 12px; border: 2px solid var(--primary);
+    object-fit: cover; z-index: 10;
 }
 
-/* Chat Layout */
+/* Chat Area */
 .chat-wrapper {
     flex: 1; display: flex; flex-direction: column;
     background: var(--card-bg); border-left: 1px solid #333;
+    min-width: 300px;
 }
-
-/* Text Mode Special Layout */
-body.text-mode .video-wrapper { display: none; }
-body.text-mode .chat-wrapper { flex: 1; border: none; max-width: 800px; margin: 0 auto; }
 
 .chat-header {
-    padding: 15px; background: rgba(0,0,0,0.3);
+    padding: 12px 15px; background: rgba(0,0,0,0.4);
     display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
 }
-.badge { background: #444; padding: 5px 10px; border-radius: 5px; font-size: 12px; }
+.badge { background: #444; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
 
 #messages-box {
-    flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;
+    flex: 1; padding: 15px; overflow-y: auto; 
+    display: flex; flex-direction: column; gap: 12px;
 }
 
-.my-msg { align-self: flex-end; background: var(--secondary); padding: 10px 15px; border-radius: 15px 15px 0 15px; }
-.stranger-msg { align-self: flex-start; background: #333; padding: 10px 15px; border-radius: 15px 15px 15px 0; }
-.sys-msg { color: #888; font-size: 0.8rem; text-align: center; margin: 10px 0; }
+.my-msg { 
+    align-self: flex-end; background: var(--secondary); color: white;
+    padding: 10px 16px; border-radius: 18px 18px 2px 18px; 
+    max-width: 80%; font-size: 0.95rem; word-wrap: break-word;
+}
+.stranger-msg { 
+    align-self: flex-start; background: #333; color: #ddd;
+    padding: 10px 16px; border-radius: 18px 18px 18px 2px;
+    max-width: 80%; font-size: 0.95rem; word-wrap: break-word;
+}
+.sys-msg { color: #666; font-size: 0.75rem; text-align: center; margin: 5px 0; font-style: italic; }
 
 .input-box {
-    padding: 15px; background: rgba(0,0,0,0.2); display: flex; gap: 10px;
+    padding: 12px; background: rgba(0,0,0,0.2); 
+    display: flex; gap: 10px; align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.05);
 }
 input {
-    flex: 1; padding: 12px; border-radius: 25px; border: none; background: #2a2a35; color: white; outline: none;
+    flex: 1; padding: 12px 15px; border-radius: 25px; 
+    border: none; background: #2a2a35; color: white; outline: none;
+    font-size: 1rem;
 }
 #sendBtn {
-    background: var(--primary); width: 40px; height: 40px; border-radius: 50%; border: none; cursor: pointer; color: #000; font-weight: bold;
+    background: var(--primary); width: 45px; height: 45px; 
+    border-radius: 50%; border: none; cursor: pointer; 
+    color: #000; font-weight: bold; font-size: 1.2rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: 0.2s;
+}
+#sendBtn:active { transform: scale(0.9); }
+
+.skip-btn, .stop-btn {
+    border: none; padding: 6px 14px; border-radius: 6px; 
+    color: white; cursor: pointer; font-size: 0.85rem; font-weight: 600;
+}
+.skip-btn { background: #ff9800; margin-right: 5px; }
+.stop-btn { background: #ff4444; }
+
+.loading-overlay { 
+    position: absolute; color: white; font-size: 1.2rem; 
+    background: rgba(0,0,0,0.7); padding: 20px; border-radius: 10px;
 }
 
-.skip-btn { background: #ff9800; border: none; padding: 5px 15px; border-radius: 5px; color: white; cursor: pointer;}
-.stop-btn { background: #ff4444; border: none; padding: 5px 15px; border-radius: 5px; color: white; cursor: pointer;}
-.loading-overlay { position: absolute; color: white; font-size: 1.2rem; }
-
-/* Responsive */
+/* =========================================
+   MOBILE RESPONSIVE DESIGN (The Fix)
+   ========================================= */
 @media (max-width: 768px) {
-    #chat-room { flex-direction: column; }
-    .video-wrapper { flex: 1; }
-    .chat-wrapper { flex: 1; height: 50%; }
-    #localVideo { width: 100px; height: 70px; top: 10px; right: 10px; bottom: auto; }
+    /* Landing Page Adjustments */
+    .hero-content h1 { font-size: 2rem; }
+    .features { gap: 10px; }
+    .feat-box { padding: 8px 12px; font-size: 0.75rem; }
+
+    /* Selection Page Adjustments */
+    .cards-container { flex-direction: column; width: 100%; align-items: center; gap: 20px; }
+    .card { width: 90%; padding: 25px; display: flex; align-items: center; justify-content: center; gap: 20px; text-align: left; }
+    .card .icon { margin-bottom: 0; font-size: 2.5rem; }
+    
+    /* -------------------------------------
+       Chat Room Mobile Layout (Top-Bottom) 
+       ------------------------------------- */
+    #chat-room { 
+        flex-direction: column; 
+    }
+
+    /* Video Section on Mobile */
+    .video-wrapper {
+        flex: none; /* Don't stretch automatically */
+        height: 45vh; /* Top 45% screen for video */
+        width: 100%;
+        background: #000;
+    }
+
+    #localVideo {
+        width: 100px; height: 130px; /* Portrait ratio for mobile */
+        bottom: 10px; right: 10px;
+        border-width: 2px;
+    }
+
+    /* Chat Section on Mobile */
+    .chat-wrapper {
+        flex: 1; /* Take remaining space */
+        height: 55vh; 
+        border-left: none;
+        border-top: 2px solid #333;
+        border-radius: 20px 20px 0 0; /* Rounded top corners */
+        margin-top: -15px; /* Slight overlap for modern look */
+        z-index: 5;
+    }
+
+    .chat-header {
+        border-radius: 20px 20px 0 0;
+        padding: 10px 15px;
+    }
+
+    #messages-box {
+        padding: 10px;
+    }
+
+    .input-box {
+        padding: 10px;
+        background: #1a1a24; /* Solid background so keyboard doesn't mess up */
+    }
+
+    /* Text Mode Special Case */
+    body.text-mode .video-wrapper { display: none; }
+    body.text-mode .chat-wrapper { height: 100%; margin-top: 0; border-radius: 0; }
 }
